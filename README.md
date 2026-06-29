@@ -82,8 +82,12 @@ Native browser SSE (`EventSource`) delivers each `data:` line in real-time. `fet
 1. README always included
 2. Config files matched by name and extension (`package.json`, `Cargo.toml`, `Dockerfile`, `.env.example`, etc.)
 3. Entry-point source files (e.g. `main.py`, `app.js`, `index.ts`)
-4. Recently modified source modules (up to 8 files total, ~12k chars combined)
+4. Recently modified source modules (up to 12k chars per file, 60k chars total)
 5. Everything else is excluded: `node_modules`, `vendor/`, build output, binary files, lockfiles
+
+### Rate limiting
+
+The `/analyze` endpoint is limited to **2 requests per minute per IP address** using a thread-safe in-memory sliding window (`threading.Lock` + timestamp log). Exceeded requests receive an SSE error event and a `429` HTTP status with a `Retry-After` header. This is a single-process limiter — multi-worker deployments should replace the in-memory store with Redis.
 
 ---
 
