@@ -7,6 +7,7 @@ import re
 import os
 import time
 from concurrent.futures import ThreadPoolExecutor
+from threading import Lock
 
 try:
     from dotenv import load_dotenv
@@ -249,6 +250,25 @@ DOC_EXTS = {
 
 SKIP_PRIMARY_LANGS = {"HTML", "CSS", "SCSS", "Less", "SVG"}
 
+_request_log: dict[str, list[float]] = {}
+_rate_lock = Lock()
+RATE_LIMIT = 2
+RATE_WINDOW = 60
+
+
+def _check_rate_limit(ip: str) -> tuple[bool, int]:
+    now = time.monotonic()
+    with _rate_lock:
+        timestamps = _request_log.get(ip, [])
+        timestamps[:] = [t for t in timestamps if now - t < RATE_WINDOW]
+        if len(timestamps) >= RATE_LIMIT:
+            retry_after = int(RATE_WINDOW - (now - timestamps[0]))
+            return False, max(retry_after, 1)
+        timestamps.append(now)
+        _request_log[ip] = timestamps
+    return True, 0
+
+
 ASSET_EXTS = {
     ".css",
     ".scss",
@@ -464,6 +484,15 @@ def index():
 
 @app.route("/analyze", methods=["GET", "POST"])
 def analyze():
+    ip = request.remote_addr or "unknown"
+    allowed, retry_after = _check_rate_limit(ip)
+    if not allowed:
+        return (
+            {"error": f"Rate limit exceeded. Try again in {retry_after}s."},
+            429,
+            {"Retry-After": str(retry_after)},
+        )
+
     if request.method == "GET":
         repo_url = request.args.get("url", "").strip()
     else:
