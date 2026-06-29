@@ -1,3 +1,8 @@
+import mimetypes
+
+mimetypes.add_type("application/javascript", ".js")
+mimetypes.add_type("text/css", ".css")
+
 from flask import Flask, render_template, request, Response, stream_with_context
 from openai import OpenAI
 import requests
