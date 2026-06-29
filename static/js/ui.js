@@ -37,24 +37,6 @@ export function prefersReducedMotion() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
-export function animateCSS(el, animation, duration = 300) {
-  if (prefersReducedMotion()) return;
-  return new Promise(resolve => {
-    el.style.animation = 'none';
-    void el.offsetHeight;
-    el.style.animation = `${animation} ${duration}ms var(--ease) forwards`;
-    setTimeout(resolve, duration);
-  });
-}
-
-export function debounce(fn, ms = 50) {
-  let timer;
-  return (...args) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => fn(...args), ms);
-  };
-}
-
 export function formatTime(seconds) {
   const m = Math.floor(seconds / 60);
   const s = Math.floor(seconds % 60);

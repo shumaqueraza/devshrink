@@ -130,6 +130,7 @@ export class Analyzer {
         this.pipelineData.size = data.size;
         this.pipelineData.owner = data.owner;
         this.pipelineData.name = data.name;
+        this.pipelineData.contributors = data.contributors;
         break;
 
       case 'languages':

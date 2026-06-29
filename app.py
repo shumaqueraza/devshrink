@@ -118,7 +118,6 @@ def fetch_file_content(owner, repo, path):
             return base64.b64decode(data["content"]).decode("utf-8", errors="replace")
         except Exception:
             return None
-    return None
 
 
 IMPORTANT_FILES = [
@@ -566,6 +565,10 @@ def analyze():
             languages = results.get("languages") or {}
             contributors = results.get("contributors") or []
 
+            if contributors:
+                top = [c["login"] for c in contributors[:5]]
+                yield emit_terminal(f"Top contributors: {', '.join(top)}", "info")
+
             primary_lang = language or "Unknown"
             if languages:
                 sorted_langs = sorted(languages.items(), key=lambda x: -x[1])
@@ -585,6 +588,9 @@ def analyze():
                 language=primary_lang,
                 owner=owner,
                 name=repo,
+                contributors=[c["login"] for c in contributors[:5]]
+                if contributors
+                else [],
             )
 
             if languages:
@@ -651,7 +657,7 @@ def analyze():
                 "Selecting high-signal files for AI analysis...", "info"
             )
 
-            selected_files, all_readable = pick_files_to_read(tree, owner, repo)
+            selected_files, _ = pick_files_to_read(tree, owner, repo)
 
             seed_count = len(selected_files)
             stats["selected_files"] = seed_count

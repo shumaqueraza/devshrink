@@ -11,7 +11,6 @@ export class Charts {
   _radar(data) {
     const ctx = document.getElementById('radarChart');
     if (!ctx) return;
-    const parentStyle = getComputedStyle(ctx.parentElement);
 
     this.radarChart = new Chart(ctx, {
       type: 'radar',
