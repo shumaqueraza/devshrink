@@ -380,17 +380,17 @@ def pick_files_to_read(tree, owner, repo):
 def build_context(owner, repo, tree, selected_files):
     file_tree_str = "\n".join(
         f["path"] for f in tree if f["type"] == "blob" and not is_ignored(f["path"])
-    )[:8000]
+    )[:12000]
 
     file_contents = []
     total_chars = 0
     for path in selected_files:
         content = fetch_file_content(owner, repo, path)
         if content:
-            snippet = content[:5000]
+            snippet = content[:12000]
             file_contents.append(f"### {path}\n```\n{snippet}\n```")
             total_chars += len(snippet)
-        if total_chars > 30000:
+        if total_chars > 60000:
             break
 
     return file_tree_str, "\n\n".join(file_contents)
