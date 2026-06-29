@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DevShrink — Understand any GitHub repository in seconds</title>
+<meta name="description" content="Paste any public GitHub URL. DevShrink instantly analyzes the codebase and streams a structured onboarding report — architecture, setup, key files, code quality, and where to start contributing." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://devshrink.app" />
+<link rel="icon" type="image/png" href="/static/icon.png" />
+<meta property="og:title" content="DevShrink — Understand any GitHub repository in seconds" />
+<meta property="og:description" content="Paste a GitHub URL. Get an instant onboarding report — architecture, stack, code quality, and the first thing to do as a contributor." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://devshrink.app" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+<link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+<link rel="dns-prefetch" href="https://api.github.com" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/static/css/styles.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "DevShrink",
+  "url": "https://devshrink.app",
+  "description": "Paste any public GitHub URL. Get an instant onboarding report — architecture, setup, key files, code quality, and where to start contributing.",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+</head>
+<body>
+<div id="app">
+
+  <header id="header">
+    <div class="header-left">
+      <div class="logo">
+        <svg class="logo-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <rect x="2" y="2" width="16" height="16" rx="4" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M6 8h8M6 12h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        Dev<span>Shrink</span>
+      </div>
+    </div>
+    <div class="header-center">
+      <span class="badge" id="headerBadge">GitHub &rarr; Onboarding in seconds</span>
+      <span class="repo-badge" id="headerRepo" hidden></span>
+    </div>
+    <div class="header-right">
+      <span class="timer-badge" id="headerTimer" hidden>00:00</span>
+    </div>
+  </header>
+
+  <main>
+
+    <section id="landingView" class="view landing-view">
+      <div class="landing-content">
+        <h1 class="landing-title">Understand any <em>repository</em> in seconds</h1>
+        <p class="landing-subtitle">One URL. Instant onboarding. No fluff, no sign-up, no setup.</p>
+        <div class="input-group">
+          <div class="input-row">
+            <input type="text" id="repoInput" placeholder="https://github.com/owner/repo" autocomplete="off" spellcheck="false" aria-label="GitHub repository URL" />
+            <button id="analyzeBtn" aria-label="Analyze repository">Analyze &rarr;</button>
+          </div>
+          <div class="input-hint">Works on any public GitHub repository</div>
+        </div>
+        <div class="examples" role="group" aria-label="Example repositories">
+          <span class="example-chip" tabindex="0" role="button" data-url="https://github.com/tiangolo/fastapi">tiangolo/fastapi</span>
+          <span class="example-chip" tabindex="0" role="button" data-url="https://github.com/expressjs/express">expressjs/express</span>
+          <span class="example-chip" tabindex="0" role="button" data-url="https://github.com/axios/axios">axios/axios</span>
+          <span class="example-chip" tabindex="0" role="button" data-url="https://github.com/django/django">django/django</span>
+        </div>
+      </div>
+      <div class="landing-visual" aria-hidden="true">
+        <div class="visual-grid"></div>
+        <div class="visual-glow"></div>
+      </div>
+    </section>
+
+    <section id="analysisView" class="view analysis-view" hidden>
+      <div class="analysis-layout">
+
+        <aside class="analysis-sidebar" role="complementary" aria-label="Analysis progress">
+
+          <div id="pipeline" class="pipeline" role="status" aria-label="Analysis pipeline steps"></div>
+
+          <div id="terminal" class="terminal-feed" role="log" aria-label="Activity console">
+            <div class="terminal-header">
+              <span class="terminal-title">Console</span>
+              <span class="terminal-count">0 lines</span>
+            </div>
+            <div class="terminal-body"></div>
+          </div>
+
+        </aside>
+
+        <div class="analysis-main">
+          <div id="dashboard" class="dashboard" hidden aria-label="Repository dashboard"></div>
+
+          <div id="outputWrap" class="output-wrap" hidden>
+            <div class="output-topbar">
+              <div class="output-info">
+                <span class="output-title">Onboarding Report</span>
+              </div>
+              <div class="output-actions">
+                <button class="topbar-btn" id="newBtn" aria-label="New analysis">New</button>
+                <button class="copy-btn" id="copyBtn" aria-label="Copy report">Copy</button>
+              </div>
+            </div>
+            <div id="outputBody" class="output-body"></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <div id="errorToast" class="error-toast" role="alert" hidden></div>
+
+  </main>
+
+  <footer>
+    <span>built for MicroCraft Vibeathon</span>
+    <span class="footer-divider"></span>
+  </footer>
+
+</div>
+
+<script type="module" src="/static/js/app.js"></script>
+</body>
+</html>
