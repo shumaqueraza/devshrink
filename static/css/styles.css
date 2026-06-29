@@ -738,7 +738,6 @@ main {
   background: var(--bg);
   padding: 32px 40px;
   overflow-x: auto;
-  max-width: min(100%, 75ch);
 }
 
 /* --- Premium Markdown --- */
