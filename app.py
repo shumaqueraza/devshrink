@@ -1,3 +1,6 @@
+import gevent.monkey
+
+gevent.monkey.patch_all()
 import mimetypes
 
 mimetypes.add_type("application/javascript", ".js")
