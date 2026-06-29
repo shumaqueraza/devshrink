@@ -6,7 +6,14 @@
 </div>
 
 <p align="center">
+  <a href="https://devshrink.onrender.com">
+    <img src="https://img.shields.io/badge/Live_Demo-devshrink.onrender.com-58a6ff?style=flat-square" />
+  </a>
   <a href="#-features"><img src="https://img.shields.io/badge/Features-58a6ff?style=flat-square" /></a>
+  <a href="#-architecture"><img src="https://img.shields.io/badge/Architecture-58a6ff?style=flat-square" /></a>
+  <a href="#-quick-start"><img src="https://img.shields.io/badge/Quick_Start-58a6ff?style=flat-square" /></a>
+  <a href="#-stack"><img src="https://img.shields.io/badge/Stack-58a6ff?style=flat-square" /></a>
+</p>
   <a href="#-architecture"><img src="https://img.shields.io/badge/Architecture-58a6ff?style=flat-square" /></a>
   <a href="#-quick-start"><img src="https://img.shields.io/badge/Quick_Start-58a6ff?style=flat-square" /></a>
   <a href="#-stack"><img src="https://img.shields.io/badge/Stack-58a6ff?style=flat-square" /></a>
@@ -113,6 +120,8 @@ python app.py
 
 Open `http://localhost:5000`, paste a GitHub URL, and get your report.
 
+> **Live demo:** [devshrink.onrender.com](https://devshrink.onrender.com)
+
 ---
 
 ## 🧱 Stack
@@ -199,7 +208,7 @@ sequenceDiagram
   <sub>Built at <strong>MicroCraft Vibeathon</strong> — June 2026</sub>
   <br/>
   <sub>
-    <a href="https://github.com/shumaqueraza/devshrink/issues">Report Bug</a> ·
-    <a href="https://github.com/shumaqueraza/devshrink/issues">Request Feature</a>
+    <a href="https://devshrink.onrender.com">Live Demo</a> ·
+    <a href="https://github.com/shumaqueraza/devshrink">GitHub</a>
   </sub>
 </p>
