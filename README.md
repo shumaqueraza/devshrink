@@ -2,7 +2,7 @@
   <img src="static/icon.png" width="37" height="37" alt="" style="vertical-align: middle;" /><span style="color:#ffffff;background:#000000;font-weight:700;font-size:28px;line-height:32px;vertical-align:middle;">Dev</span><span style="color:#58a6ff;background:#000000;font-weight:700;font-size:28px;line-height:32px;vertical-align:middle;">Shrink  </span>
   <br/>
   <br/>
-  <em>Paste a GitHub URL. Get a structured onboarding report in seconds.</em>
+  <em>Understand any repo in seconds.</em>
 </div>
 
 <p align="center">
