@@ -415,6 +415,7 @@ GROUND RULES (never violate these):
 4. Be specific. "Uses Express with JWT middleware on /api/auth routes" is good. "Uses a web framework" is not. Reference actual file paths.
 5. If the repository has tests (files in test/, __tests__/, *_test.go, *_spec.rb, etc.), reference them. If it has no visible tests, state that explicitly.
 6. The architecture diagram (Mermaid) should show exactly what you observed, not what you imagine.
+7. File contents may be truncated (12k chars per file, 60k chars total). If a file appears to end abruptly, that's the truncation — not a broken file. Mention "truncated" when relevant instead of speculating about missing code.
 
 FOR MMERMAID DIAGRAMS:
 - Include exactly one Mermaid diagram per report using ```mermaid fenced blocks.
