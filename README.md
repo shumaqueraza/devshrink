@@ -14,10 +14,6 @@
   <a href="#-quick-start"><img src="https://img.shields.io/badge/Quick_Start-58a6ff?style=flat-square" /></a>
   <a href="#-stack"><img src="https://img.shields.io/badge/Stack-58a6ff?style=flat-square" /></a>
 </p>
-  <a href="#-architecture"><img src="https://img.shields.io/badge/Architecture-58a6ff?style=flat-square" /></a>
-  <a href="#-quick-start"><img src="https://img.shields.io/badge/Quick_Start-58a6ff?style=flat-square" /></a>
-  <a href="#-stack"><img src="https://img.shields.io/badge/Stack-58a6ff?style=flat-square" /></a>
-</p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white&style=flat-square" />
