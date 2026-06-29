@@ -486,10 +486,17 @@ def analyze():
     ip = request.remote_addr or "unknown"
     allowed, retry_after = _check_rate_limit(ip)
     if not allowed:
-        return (
-            {"error": f"Rate limit exceeded. Try again in {retry_after}s."},
-            429,
-            {"Retry-After": str(retry_after)},
+
+        def _rate_limit_stream():
+            yield sse(
+                "error", message=f"Rate limit exceeded. Try again in {retry_after}s."
+            )
+            yield sse("done", message="rate_limited")
+
+        return Response(
+            stream_with_context(_rate_limit_stream()),
+            mimetype="text/event-stream",
+            headers={"Retry-After": str(retry_after)},
         )
 
     if request.method == "GET":
