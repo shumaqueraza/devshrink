@@ -70,7 +70,7 @@ export class Analyzer {
     }
   }
 
-  async start(url) {
+  async start(url, provider = {}) {
     this._reset(url);
     this.outputBody.classList.add('streaming');
 
@@ -85,8 +85,13 @@ export class Analyzer {
       this.headerTimer.textContent = formatTime((Date.now() - this.startTime) / 1000);
     }, 200);
 
+    const params = new URLSearchParams({ url });
+    if (provider.api_key) params.set('api_key', provider.api_key);
+    if (provider.base_url) params.set('base_url', provider.base_url);
+    if (provider.model) params.set('model', provider.model);
+
     return new Promise((resolve) => {
-      this._es = new EventSource(`/analyze?url=${encodeURIComponent(url)}`);
+      this._es = new EventSource(`/analyze?${params}`);
 
       this._es.onmessage = (event) => {
         try {

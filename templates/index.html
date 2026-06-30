@@ -75,6 +75,15 @@
             <button id="analyzeBtn" aria-label="Analyze repository">Analyze &rarr;</button>
           </div>
           <div class="input-hint">Works on any public GitHub repository</div>
+          <div class="provider-toggle" id="providerToggle" role="button" tabindex="0" aria-expanded="false">
+            <span>Use custom provider</span>
+            <svg class="provider-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="provider-fields" id="providerFields" hidden>
+            <input type="password" id="apiKeyInput" placeholder="API Key" autocomplete="off" />
+            <input type="text" id="baseUrlInput" placeholder="Base URL (OpenAI-compatible only, e.g. https://generativelanguage.googleapis.com/v1beta/openai/)" autocomplete="off" />
+            <input type="text" id="modelInput" placeholder="Model (e.g. gemini-2.5-flash)" autocomplete="off" />
+          </div>
         </div>
         <div class="examples" role="group" aria-label="Example repositories">
           <span class="example-chip" tabindex="0" role="button" data-url="https://github.com/tiangolo/fastapi">tiangolo/fastapi</span>

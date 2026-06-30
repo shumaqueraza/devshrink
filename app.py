@@ -524,7 +524,22 @@ def analyze():
 
     def generate():
         try:
-            if not AI_API_KEY or AI_API_KEY == "pending":
+            req_api_key = request.args.get("api_key", "").strip()
+            req_base_url = request.args.get("base_url", "").strip()
+            req_model = request.args.get("model", "").strip()
+
+            if req_api_key:
+                req_client = OpenAI(
+                    base_url=req_base_url or AI_BASE_URL,
+                    api_key=req_api_key,
+                )
+                req_model = req_model or MODEL
+            else:
+                req_client = client
+                req_api_key = AI_API_KEY
+                req_model = MODEL
+
+            if not req_api_key or req_api_key == "pending":
                 yield emit_terminal("API key not configured", "error")
                 yield sse(
                     "error",
@@ -699,8 +714,8 @@ def analyze():
                 f"Prepared in {elapsed:.1f}s — starting generation", "system"
             )
 
-            stream = client.chat.completions.create(
-                model=MODEL,
+            stream = req_client.chat.completions.create(
+                model=req_model,
                 messages=[
                     {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": prompt},

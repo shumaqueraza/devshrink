@@ -14,6 +14,8 @@ const app = {
   init() {
     this.analyzer = new Analyzer();
 
+    this._initProviderToggle();
+
     this.analyzeBtn.addEventListener('click', () => this.startAnalysis());
     this.repoInput.addEventListener('keydown', e => {
       if (e.key === 'Enter') this.startAnalysis();
@@ -60,7 +62,15 @@ const app = {
       this.analysisView.style.animation = 'fadeSlideUp 400ms ease both';
     }
 
-    this.analyzer.start(url).then(() => {
+    const provider = {};
+    const apiKey = qs('#apiKeyInput').value.trim();
+    const baseUrl = qs('#baseUrlInput').value.trim();
+    const model = qs('#modelInput').value.trim();
+    if (apiKey) provider.api_key = apiKey;
+    if (baseUrl) provider.base_url = baseUrl;
+    if (model) provider.model = model;
+
+    this.analyzer.start(url, provider).then(() => {
       this._finishAnalysis();
     }).catch(() => {
       this._finishAnalysis();
@@ -102,6 +112,21 @@ const app = {
       const btn = qs('#copyBtn');
       btn.textContent = 'Copied!';
       setTimeout(() => { btn.textContent = 'Copy'; }, 1500);
+    });
+  },
+
+  _initProviderToggle() {
+    const toggle = qs('#providerToggle');
+    const fields = qs('#providerFields');
+    if (!toggle) return;
+    const toggleFn = () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', !expanded);
+      fields.hidden = expanded;
+    };
+    toggle.addEventListener('click', toggleFn);
+    toggle.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleFn(); }
     });
   },
 
