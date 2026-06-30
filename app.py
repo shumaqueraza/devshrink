@@ -381,24 +381,24 @@ def pick_files_to_read(tree, owner, repo):
     source_files = [
         p for p in readable if classify_file(p) == "source" and p not in priority
     ]
-    selected = list(dict.fromkeys(priority + source_files))[:10]
+    selected = list(dict.fromkeys(priority + source_files))[:30]
     return selected, readable
 
 
 def build_context(owner, repo, tree, selected_files):
     file_tree_str = "\n".join(
         f["path"] for f in tree if f["type"] == "blob" and not is_ignored(f["path"])
-    )[:12000]
+    )[:80000]
 
     file_contents = []
     total_chars = 0
     for path in selected_files:
         content = fetch_file_content(owner, repo, path)
         if content:
-            snippet = content[:12000]
+            snippet = content[:80000]
             file_contents.append(f"### {path}\n```\n{snippet}\n```")
             total_chars += len(snippet)
-        if total_chars > 60000:
+        if total_chars > 500000:
             break
 
     return file_tree_str, "\n\n".join(file_contents)
@@ -415,7 +415,7 @@ GROUND RULES (never violate these):
 4. Be specific. "Uses Express with JWT middleware on /api/auth routes" is good. "Uses a web framework" is not. Reference actual file paths.
 5. If the repository has tests (files in test/, __tests__/, *_test.go, *_spec.rb, etc.), reference them. If it has no visible tests, state that explicitly.
 6. The architecture diagram (Mermaid) should show exactly what you observed, not what you imagine.
-7. File contents may be truncated (12k chars per file, 60k chars total). If a file appears to end abruptly, that's the truncation — not a broken file. Mention "truncated" when relevant instead of speculating about missing code.
+7. File contents may be truncated (80k chars per file, 500k chars total). If a file appears to end abruptly, that's the truncation — not a broken file. Mention "truncated" when relevant instead of speculating about missing code.
 
 FOR MERMAID DIAGRAMS:
 - Include exactly one Mermaid diagram per report using ```mermaid fenced blocks.
