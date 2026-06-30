@@ -423,6 +423,7 @@ FOR MERMAID DIAGRAMS:
 - For libraries/CLIs: module/component relationships
 - For pipelines: data flow
 - 5 to 9 nodes max. Label edges. Use graph LR for flows, graph TD for hierarchies.
+- CRITICAL syntax rules: Never use semicolons at line endings. Never use parentheses in node labels — A[Clean Label] is fine, A[Label (with parens)] will crash. Node IDs must be simple alphanumeric (A, B, router, db, etc.).
 
 OUTPUT STRUCTURE:
 Use markdown with these exact section headers:

@@ -9,6 +9,7 @@ export class MermaidRenderer {
     if (this.initialized) return;
     mermaid.initialize({
       startOnLoad: false,
+      suppressErrorRendering: true,
       theme: 'dark',
       themeVariables: {
         background: '#0a0a0c',
@@ -27,7 +28,14 @@ export class MermaidRenderer {
       },
       flowchart: { curve: 'basis', padding: 20 }
     });
+    mermaid.parseError = () => {};
     this.initialized = true;
+  }
+
+  _sanitize(code) {
+    code = code.replace(/;\s*$/gm, '');
+    code = code.replace(/\[([^\]]*)\]/g, (m, c) => `[${c.replace(/[()]/g, '')}]`);
+    return code;
   }
 
   async renderAll(container) {
@@ -59,7 +67,7 @@ export class MermaidRenderer {
 
   async _renderOne(id, code) {
     try {
-      const { svg } = await mermaid.render(`svg-${id}`, code);
+      const { svg } = await mermaid.render(`svg-${id}`, this._sanitize(code));
       return { success: true, svg };
     } catch (err) {
       console.warn('Mermaid render failed:', err);
